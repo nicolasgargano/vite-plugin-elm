@@ -415,7 +415,8 @@ export const plugin = (opts?: { debug: boolean }): Plugin => {
           verbose: isBuild,
           debug,
         })
-        const dependencies: string[] = await compiler.findAllDependencies(id)
+        const dependenciesFound: string[] = await compiler.findAllDependencies(id)
+        const dependencies = dependenciesFound.map(dep => dep.replaceAll(`\\`, `/`))
         dependencies.forEach(this.addWatchFile)
         compilableFiles.set(id, new Set(dependencies))
         const esm = toESModule(compiled)
